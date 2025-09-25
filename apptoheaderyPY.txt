@@ -1,0 +1,31 @@
+Convert ASIRVAD-GOLDLOANMODULEUAT.exe into a C++ byte array using Python
+
+Include that array in your C++ code (app_data.h)
+
+Write the array to disk at runtime and launch it
+
+🛠 Step-by-Step Using Python
+🔹 Step 1: Convert Electron App to C++ Header
+Create a Python file in the same folder as your Electron .exe:
+
+📄 convert_to_header.py
+python
+input_file = "ASIRVAD-GOLDLOANMODULEUAT.exe"
+output_header = "app_data.h"
+
+with open(input_file, "rb") as f:
+    data = f.read()
+
+with open(output_header, "w") as out:
+    out.write("unsigned char appData[] = {\n")
+    for i, byte in enumerate(data):
+        out.write(f"0x{byte:02x},")
+        if (i + 1) % 16 == 0:
+            out.write("\n")
+    out.write("\n};\n")
+    out.write(f"unsigned int appDataLen = {len(data)};\n")
+🟢 Run this script using Python:
+
+bash
+python convert_to_header.py
+✅ It will create app_data.h — a C++ header file containing your Electron app as a byte array.
